@@ -23,8 +23,8 @@
 
 ```
 protoc -I proto proto/echo.proto --go_out=plugins=grpc:proto
-go build -o server
-./server
+go build -o echo-server server/main.go
+./echo-server
 ```
 
 ```
