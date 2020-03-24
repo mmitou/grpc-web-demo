@@ -1,4 +1,6 @@
-# grpc-webでistioをインストールしたkubernetesクラスタ上のgRPCサーバーと通信してみよう
+# grpc-web-demo
+
+grpc-webでistioをインストールしたkubernetesクラスタ上のgRPCサーバーと通信してみよう
 
 ## 概要
 - webブラウザからgRPCサーバーにリクエストを投げるには、gRPCサーバーとwebブラウザの間にenvoy等のgRPC proxyが必要です
@@ -20,13 +22,14 @@
 	- 例: サーバーが"hello"を受け取ったら"hellohello"を返す
 - Listening PORT 9000
 
-
+コンパイルして実行します。
 ```
 protoc -I proto proto/echo.proto --go_out=plugins=grpc:proto
 go build -o echo-server server/main.go
 ./echo-server
 ```
 
+サーバーが期待した通り実行出来る事を確認してみます。
 ```
 $ grpcurl -proto proto/echo.proto -plaintext -d '{"message":"hello"}' localhost:9000 proto.EchoService.Echo
 {
@@ -34,8 +37,12 @@ $ grpcurl -proto proto/echo.proto -plaintext -d '{"message":"hello"}' localhost:
 }
 ```
 
+dockerを使う場合には以下のように実行します。
+
 ```
 docker build -f docker/server.Dockerfile -t echo-server .
-docker run -d --image echo-server
+docker run -d -p 9000:9000 echo-server
 ```
 
+## 参考
+[grpc-web-istio-demo](https://github.com/venilnoronha/grpc-web-istio-demo)
