@@ -18,7 +18,7 @@
 - サーバーはmessageという文字列を受け取る
 - サーバーは受け取ったmessageを2つ繋げた文字列を返す
 	- 例: サーバーが"hello"を受け取ったら"hellohello"を返す
-- Listening PORT 8080
+- Listening PORT 9000
 
 
 ```
@@ -28,10 +28,14 @@ go build -o echo-server server/main.go
 ```
 
 ```
-$ grpcurl -proto proto/echo.proto -plaintext -d '{"message":"hello"}' localhost:8080 proto.EchoService.Echo
+$ grpcurl -proto proto/echo.proto -plaintext -d '{"message":"hello"}' localhost:9000 proto.EchoService.Echo
 {
   "message": "hellohello"
 }
 ```
 
+```
+docker build -f docker/server.Dockerfile -t echo-server .
+docker run -d --image echo-server
+```
 
