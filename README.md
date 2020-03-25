@@ -15,6 +15,7 @@ grpc-webで、istioをインストールしたkubernetesクラスタ上にデプ
 2. webブラウザ上で実行するgRPCクライアントを作る
 3. gRPCサーバーをkubernetes上にデプロイする
 4. 実行してみる
+5. clean up
 
 ### 1. gPRCサーバーを作る
 
@@ -56,12 +57,56 @@ $ grpcurl -proto proto/echo.proto -plaintext -d '{"message":"hello"}' localhost:
 
 ### 2. webブラウザ上で実行するgRPCクライアントを作る
 
+こちらも既にimageをdockerhubにpushしてあります。
+今回はこのimageを使います。
+
+- [mmitou/web-ui](https://hub.docker.com/repository/docker/mmitou/web-ui)
+
+クライアントは以下の手順でビルドします。
+
 ```
 protoc -I proto/ proto/echo.proto \
 	--js_out=import_style=commonjs:proto \
 	--grpc-web_out=import_style=commonjs,mode=grpcwebtext:proto
+docker build -f docker/web-ui.Dockerfile -t mmitou/web-ui:v1 .
 ```
 
+### 3. gRPCサーバーをkubernetes上にデプロイする
+
+GKEでkubernetesクラスターを作ってistioをインストールします。
+
+```
+gcloud beta container clusters create sample-cluster --preemptible --addons=Istio
+gcloud container clusters get-credentials sample-cluster
+```
+
+以下のコマンドでkubernetesクラスターにアプリケーションをデプロイします。
+
+```
+kubectl label namespace default istio-injection=enabled
+kubectl apply -f istio/app.yaml
+kubectl apply -f istio/istio.yaml
+```
+
+kubernetesのservice name port に"grpc-web"と書くのが重要です。
+istioはservice name portの値を見て、プロトコルを判断します。
+[manual-protocol-selection](https://istio.io/docs/ops/configuration/traffic-management/protocol-selection/#manual-protocol-selection)
+
+### 4. 実行してみる
+
+以下のコマンドでistio-gatewayのIPアドレスを確認し、webブラウザでそのIPアドレスを開きます。
+
+```
+kubectl get services
+```
+
+### 5. clean up
+
+以下のコマンドを実行して、kubernetesクラスターを削除します。
+
+```
+gcloud container clusters delete sample-cluster
+```
 
 ## 参考
 
