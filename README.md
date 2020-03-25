@@ -104,7 +104,6 @@ spec:
     port: 9000
   selector:
     app: server
-
 ```
 
 istioはname portの値を見て、プロトコルを判断します。
