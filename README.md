@@ -84,7 +84,8 @@ gcloud container clusters get-credentials sample-cluster
 
 ```
 kubectl label namespace default istio-injection=enabled
-kubectl apply -f istio/app.yaml
+kubectl apply -f istio/server.yaml
+kubectl apply -f istio/web-ui.yaml
 kubectl apply -f istio/istio.yaml
 ```
 
