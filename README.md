@@ -89,16 +89,36 @@ kubectl apply -f istio/web-ui.yaml
 kubectl apply -f istio/istio.yaml
 ```
 
-kubernetesのservice name port に"grpc-web"と書くのが重要です。
-istioはservice name portの値を見て、プロトコルを判断します。
-[manual-protocol-selection](https://istio.io/docs/ops/configuration/traffic-management/protocol-selection/#manual-protocol-selection)
+serviceのname port に"grpc-web"と書くのが重要です。
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: server
+  labels:
+    app: server
+spec:
+  ports:
+  - name: grpc-web # istio refers this value as protocol
+    port: 9000
+  selector:
+    app: server
+
+```
+
+istioはname portの値を見て、プロトコルを判断します。
+
+- [manual-protocol-selection](https://istio.io/docs/ops/configuration/traffic-management/protocol-selection/#manual-protocol-selection)
 
 ### 4. 実行してみる
 
 以下のコマンドでistio-gatewayのIPアドレスを確認し、webブラウザでそのIPアドレスを開きます。
 
 ```
-kubectl get services
+$ kubectl get services istio-ingressgateway -n istio-system
+NAME                   TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)                                                                                                                                      AGE
+istio-ingressgateway   LoadBalancer   10.7.241.167   34.84.63.16   15020:32152/TCP,80:30187/TCP,443:30505/TCP,31400:30989/TCP,15029:30997/TCP,15030:31142/TCP,15031:31205/TCP,15032:32589/TCP,15443:31066/TCP   2m29s
 ```
 
 ### 5. clean up
