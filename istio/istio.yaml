@@ -30,6 +30,8 @@ spec:
     route:
     - destination:
         host: server
+        port:
+          number: 80
     corsPolicy:
       allowOrigin:
         - "*"
@@ -61,3 +63,5 @@ spec:
     route:
     - destination:
         host: web-ui
+        port:
+          number: 80
