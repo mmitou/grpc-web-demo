@@ -5,9 +5,10 @@ metadata:
   labels:
     app: server
 spec:
+  type: ClusterIP
   ports:
-  - name: grpc-web # istio refers this value as protocol
-    port: 80
+  - name: grpc-web
+    port: 9090
     targetPort: 9000
   selector:
     app: server
@@ -22,7 +23,6 @@ spec:
     metadata:
       labels:
         app: server
-        version: v1
     spec:
       containers:
       - name: server-container

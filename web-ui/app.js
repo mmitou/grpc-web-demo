@@ -7,7 +7,7 @@ request.setMessage('hello');
 
 echoService.echo(request, {}, function(err, response) {
 	if (err != null) {
-		alert(err);
+		alert(err.name, err.message);
 	} else {
 		alert(response.getMessage());
 	}

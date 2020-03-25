@@ -31,7 +31,7 @@ spec:
     - destination:
         host: server
         port:
-          number: 80
+          number: 9090
     corsPolicy:
       allowOrigin:
         - "*"
@@ -59,9 +59,11 @@ spec:
         - custom-header-1
         - grpc-status
         - grpc-message
-  - name: web-ui-route
+  - match:
+    - uri:
+        exact: /
     route:
     - destination:
         host: web-ui
         port:
-          number: 80
+          number: 8090
