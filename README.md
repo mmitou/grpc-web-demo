@@ -1,5 +1,7 @@
 # grpc-web-demo
 
+[English](./docs/README.md)
+
 - Web開発においてREST APIを設計するのは大変な作業です。
 - REST APIの代わりにgRPCを用いる事で、開発者の負担が減るかもしれません。
 - このデモでは、Web開発でgRPCの導入を検討している方に対し、シンプルで理解しやすく実際に動かせるプログラムを提供します。
