@@ -8,7 +8,8 @@ request.setMessage('hello');
 echoService.echo(request, {}, function(err, response) {
 	if (err != null) {
 		alert(err.name, err.message);
+		console.log("failed");
 	} else {
-		alert(response.getMessage());
+		console.log(response.getMessage());
 	}
 });

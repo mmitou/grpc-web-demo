@@ -1,13 +1,14 @@
 # grpc-web-demo
 
-grpc-webで、istioをインストールしたkubernetesクラスタ上にデプロイしたgRPCサーバーと通信してみよう
+- Web開発においてREST APIを設計するのは大変な作業です。
+- REST APIの代わりにgRPCを用いる事で、開発者の負担が減るかもしれません。
+- このデモでは、Web開発でgRPCを検討している方に対し、シンプルで理解しやすく実際に動かせるプログラムを提供します。
 
 ## 概要
 
-- webブラウザからgRPCサーバーにリクエストを投げるには、gRPCサーバーとwebブラウザの間にenvoy等のgRPC proxyが必要です。
+- webブラウザからgrpc-webを使ってgRPCサーバーにリクエストを投げるには、gRPCサーバーとwebブラウザの間にenvoy等のgRPC proxyが必要です。
 - envoyは、kubernetesクラスタにインストールしたistioを適切に設定する事で、PODに対して自動的に挿入する事が出来ます。
-- この記事では、そのistioによって挿入されたenvoyに対してgRPC proxyとして動作するように設定する例を紹介します。
-
+- このデモでは、そのistioによって挿入されたenvoyに対してgRPC proxyとして動作するように設定します。
 
 ## 目次
 
