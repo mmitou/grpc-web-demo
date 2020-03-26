@@ -23,8 +23,17 @@ spec:
   gateways:
   - echo-gateway
   http:
-  - name: echo-server-route
-    match:
+  - match:
+    - uri:
+        prefix: /dist
+    - uri:
+        exact: /
+    route:
+    - destination:
+        host: web-ui
+        port:
+          number: 8090
+  - match:
     - uri:
         prefix: /proto.EchoService
     route:
@@ -59,11 +68,3 @@ spec:
         - custom-header-1
         - grpc-status
         - grpc-message
-  - match:
-    - uri:
-        exact: /
-    route:
-    - destination:
-        host: web-ui
-        port:
-          number: 8090
