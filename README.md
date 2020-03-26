@@ -2,7 +2,7 @@
 
 - Web開発においてREST APIを設計するのは大変な作業です。
 - REST APIの代わりにgRPCを用いる事で、開発者の負担が減るかもしれません。
-- このデモでは、Web開発でgRPCを検討している方に対し、シンプルで理解しやすく実際に動かせるプログラムを提供します。
+- このデモでは、Web開発でgRPCの導入を検討している方に対し、シンプルで理解しやすく実際に動かせるプログラムを提供します。
 
 ## 概要
 
@@ -90,7 +90,9 @@ kubectl apply -f istio/web-ui.yaml
 kubectl apply -f istio/istio.yaml
 ```
 
-serviceのname port に"grpc-web"と書くのが重要です。
+Serviceのname port に"grpc-web"と書くのが重要です。<br />
+istioはname portの値を見て、プロトコルを判断します。<br />
+- [manual-protocol-selection](https://istio.io/docs/ops/configuration/traffic-management/protocol-selection/#manual-protocol-selection)
 
 ```
 apiVersion: v1
@@ -107,19 +109,20 @@ spec:
     app: server
 ```
 
-istioはname portの値を見て、プロトコルを判断します。
-
-- [manual-protocol-selection](https://istio.io/docs/ops/configuration/traffic-management/protocol-selection/#manual-protocol-selection)
-
 ### 4. 実行してみる
 
 以下のコマンドでistio-gatewayのIPアドレスを確認し、webブラウザでそのIPアドレスを開きます。
 
 ```
-$ kubectl get services istio-ingressgateway -n istio-system
-NAME                   TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)                                                                                                                                      AGE
-istio-ingressgateway   LoadBalancer   10.7.241.167   34.84.63.16   15020:32152/TCP,80:30187/TCP,443:30505/TCP,31400:30989/TCP,15029:30997/TCP,15030:31142/TCP,15031:31205/TCP,15032:32589/TCP,15443:31066/TCP   2m29s
+$ kubectl get service istio-ingressgateway -n istio-system
+NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)                                                                                                                                      AGE
+istio-ingressgateway   LoadBalancer   10.7.245.96   34.84.25.68   15020:32183/TCP,80:32561/TCP,443:30846/TCP,31400:31742/TCP,15029:32088/TCP,15030:31197/TCP,15031:31861/TCP,15032:31313/TCP,15443:30914/TCP   8m13s
 ```
+
+以下のようにwebブラウザのコンソールに"hellohello"と表示されていれば成功です。
+
+![Screenshot from 2020-03-26 13-29-51](https://user-images.githubusercontent.com/254112/77610860-3afa0580-6f67-11ea-8930-b2f3d59e94fd.png)
+
 
 ### 5. clean up
 
